@@ -17,7 +17,9 @@ class List {
 public:
 
   //EFFECTS:  returns true if the list is empty
-  bool empty() const;
+  bool empty() const{
+    return first == nullptr;
+  }
 
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow. Instead, keep track of the size
@@ -26,11 +28,17 @@ public:
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
-  T & front();
+  T & front(){
+    assert(!empty());
+    return first->datum;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the last element in the list by reference
-  T & back();
+  T & back(){
+    assert(!empty());
+    return last->datum;
+  }
 
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum);
