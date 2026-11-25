@@ -116,6 +116,28 @@ public:
     }
   }
 
+
+  List() : first(nullptr), last(nullptr), elts(0) {}
+
+  ~List(){
+    clear();
+  }
+
+  List(const List<T> &other): first(nullptr), last(nullptr), elts(0){
+    copy_all(other);
+  }
+
+  List &operator=(const List &rhs){
+    if(this == &rhs){
+      return *this;
+    }
+    clear();
+    copy_all(rhs);
+
+    return *this;
+  }
+
+
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
   // will work correctly without defining these, you should omit them. A user
@@ -128,11 +150,15 @@ private:
     Node *prev;
     T datum;
   };
-  int elts = 0;
+  int elts;
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
-  void copy_all(const List<T> &other);
+  void copy_all(const List<T> &other){
+    for(Node *curr = other.first; curr != nullptr; curr = curr->next){
+      push_back(curr->datum);
+    }
+  }
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
