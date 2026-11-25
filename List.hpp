@@ -24,7 +24,9 @@ public:
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow. Instead, keep track of the size
   //         with a private member variable. That's how std::list does it.
-  int size() const;
+  int size() const{
+    return elts;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
@@ -41,24 +43,78 @@ public:
   }
 
   //EFFECTS:  inserts datum into the front of the list
-  void push_front(const T &datum);
+  void push_front(const T &datum){
+    Node *p = new Node;
+    p->datum = datum;
+    p->next = first;
+    p->prev = nullptr;
+    if(empty()){
+      first = last = p;
+    }
+    else{
+      first->prev = p;
+    }
+    first = p;
+    elts++;
+  }
 
   //EFFECTS:  inserts datum into the back of the list
-  void push_back(const T &datum);
+  void push_back(const T &datum){
+    Node *p = new Node;
+    p->datum = datum;
+    p->next = nullptr;
+    p->prev = last;
+    if(empty()){
+      first = p;
+    }
+    else{
+      last->next = p;
+    }
+    last = p;
+    elts++;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: invalidates all iterators to the removed element
   //EFFECTS:  removes the item at the front of the list
-  void pop_front();
+  void pop_front(){
+    assert(!empty());
+    Node *p = first;
+    first = first->next;
+    delete p;
+    if(!empty()){
+      first->prev = nullptr;
+    }
+    else{
+      last = nullptr;
+    }
+    elts--;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: invalidates all iterators to the removed element
   //EFFECTS:  removes the item at the back of the list
-  void pop_back();
+  void pop_back(){
+    assert(!empty());
+    Node *p = last;
+    last = last->prev;
+    delete p;
+    if(last != nullptr){
+      last->next = nullptr;
+    }
+    else{
+      first = nullptr;
+    }
+    elts--;
+  }
 
   //MODIFIES: invalidates all iterators to the removed elements
   //EFFECTS:  removes all items from the list
-  void clear();
+  void clear(){
+    while(!empty()){
+      pop_front();
+    }
+  }
 
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
@@ -72,6 +128,7 @@ private:
     Node *prev;
     T datum;
   };
+  int elts = 0;
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
