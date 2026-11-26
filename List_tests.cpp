@@ -2,7 +2,7 @@
 #include "unit_test_framework.hpp"
 #include <vector>
 
-struct Point {
+ struct Point {
   int x;
   int y;
 };
@@ -599,4 +599,4 @@ TEST(test_lifecycle_many_lists) {
   check(final_list, {1, 2, 3});
 }
 
-TEST_MAIN()
+TEST_MAIN() 
